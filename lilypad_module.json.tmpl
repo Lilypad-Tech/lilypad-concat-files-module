@@ -1,0 +1,48 @@
+{
+  "machine": {
+    "gpu": 0,
+    "cpu": 1000,
+    "ram": 6000
+  },
+  "inputFiles": {
+    "required": ["one.txt", "two.txt"],
+    "optional": ["three.txt", "four.txt"]
+  },
+  "job": {
+    "APIVersion": "V1beta1",
+    "Metadata": {
+      "CreatedAt": "0001-01-01T00:00:00Z",
+      "Requester": {}
+    },
+    "Spec": {
+      "Deal": {
+        "Concurrency": 1
+      },
+      "Docker": {
+        "Entrypoint": ["go", "run", "/workspace/main.go"],
+        "WorkingDirectory": "/workspace",
+        "EnvironmentVariables": [
+          {{ if .Separator }}"SEPARATOR={{ js .Separator }}"{{ end }}
+        ],
+        "Image": "bgins/lilypad-concat-files-module:latest"
+      },
+      "Engine": "Docker",
+      "Network": {
+        "Type": "None"
+      },
+      "Outputs": [
+        {
+          "Name": "outputs",
+          "Path": "/outputs"
+        }
+      ],
+      "PublisherSpec": {
+        "Type": "ipfs"
+      },
+      "Timeout": 600,
+      "Wasm": {
+        "EntryModule": {}
+      }
+    }
+  }
+}
