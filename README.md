@@ -26,26 +26,15 @@ Lilypad modules can declare required and optional file inputs to a job. The requ
 
 Input files are declared in the Lilypad module template. Our module declares the following input files:
 
-```json
-"inputFiles": {
-  "required": ["one.txt", "two.txt"],
-  "optional": ["three.txt", "four.txt"]
-},
-```
+https://github.com/Lilypad-Tech/lilypad-concat-files-module/blob/875689fe956e18eb6223e5ed5b8bfd829e09bc55/lilypad_module.json.tmpl#L7-L10
 
 Input files are available to a job at `/inputs` in the container where the job runs. Module Dockerfiles should create this directory to make sure it available.
 
-```docker
-RUN mkdir -p /inputs
-```
+https://github.com/Lilypad-Tech/lilypad-concat-files-module/blob/875689fe956e18eb6223e5ed5b8bfd829e09bc55/Dockerfile#L11
 
 File inputs can be used with templated textual inputs to a job. These inputs are the common case used when passing prompts to an LLM. In our example, we define a `Separator` that is passed as an environment variable to the job.
 
-```
-"EnvironmentVariables": [
-  {{ if .Separator }}"SEPARATOR={{ js .Separator }}"{{ end }}
-],
-```
+https://github.com/Lilypad-Tech/lilypad-concat-files-module/blob/875689fe956e18eb6223e5ed5b8bfd829e09bc55/lilypad_module.json.tmpl#L24-L26
 
 Once inside the job, use textual inputs from their environment variables and input files from the `/inputs` directory.
 
